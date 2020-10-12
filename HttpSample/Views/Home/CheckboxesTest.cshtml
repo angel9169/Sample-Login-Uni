@@ -1,0 +1,33 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CheckboxesTest</title>
+</head>
+<body>
+    <div>
+        <ul>
+            <li><a href="/Home/Index">Home</a></li>
+            <li><a href="/Home/Login">Login</a></li>
+            <li><a href="/Home/CheckboxesTest">Groups</a></li>
+        </ul>
+    </div>
+    <div>
+        <form action="/Home/CheckboxesTest" method="post">
+            isAdmin: <input type="checkbox" name="isAdmin" value="True" />
+            <h1>Groups</h1>
+            Members <input type="checkbox" name="groups" value="5" />
+            Users <input type="checkbox" name="groups" value="12" />
+            Moderators <input type="checkbox" name="groups" value="16" />
+
+            <input type="submit" value="Save" />
+        </form>
+    </div>
+</body>
+</html>
