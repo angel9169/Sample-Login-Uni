@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using SampleLogin.ViewModels.Home;
 
 namespace HttpSample.Controllers
 {
@@ -17,55 +17,26 @@ namespace HttpSample.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(string Username, string Password)
+        public IActionResult Login(LoginVM model)
         {
-            bool isValid = true;
+            if (!ModelState.IsValid)
+                return View(model);
 
-            ViewData["UsernameValue"] = Username;
-            ViewData["PasswordValue"] = Password;
+            bool isAuthenticated = false;
+            if (model.Username == "angel" && model.Password == "123")
+                isAuthenticated = true;
+            else if (model.Username == "dani" && model.Password == "123")
+                isAuthenticated = true;
+            else if (model.Username == "george" && model.Password == "123")
+                isAuthenticated = true;
 
-            if (string.IsNullOrEmpty(Username))
+            if (!isAuthenticated)
             {
-                ViewData["Username"] = "This field is required!";
-                isValid = false;
+                ModelState.AddModelError("AuthenticationFailed", "Incorrect username and password!");
+                return View(model);
             }
 
-            if (string.IsNullOrEmpty(Password))
-            {
-                ViewData["Password"] = "This field is required!";
-                isValid = false;
-            }
-
-            if (!isValid)
-                return View();
-
-            if (Username== "angel" && Password=="123")
-                return RedirectToAction("Index", "Home");
-            else
-            {
-                ViewData["AuthenticationError"] = "Invalid username or password!";
-                return View();
-            }
-        }
-
-        [HttpGet]
-        public IActionResult CheckboxesTest()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public string CheckboxesTest(bool isAdmin,int[] groups)
-        {
-            string result = "";
-            ViewData["isAdmin"] = isAdmin;
-            result += $"isAdmin: {isAdmin} \n";
-            for (int i = 0; i < groups.Length; i++)
-            {
-                result += $"Group: {groups[i]} \n";
-            }
-
-            return result;
+            return RedirectToAction("Index", "Home");
         }
     }
 }
